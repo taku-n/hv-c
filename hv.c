@@ -1,7 +1,7 @@
 #include <math.h>
 
-void hv(const double CLOSE[], double hv[], const int N, const int PERIOD,
-		const int TIMEFRAME);
+void hv(const double CLOSE[], double hv[], const int START, const int END,
+		const int PERIOD);
 // Historical Volatility
 
 double sd(const double CLOSE[], const int PERIOD, const int I);
@@ -10,29 +10,11 @@ double sd(const double CLOSE[], const int PERIOD, const int I);
 double variance(const double CLOSE[], const int PERIOD, const int I);
 double average(const double CLOSE[], const int PERIOD, const int I);
 
-void hv(const double CLOSE[], double hv[], const int N, const int PERIOD,
-		const int TIMEFRAME)
+void hv(const double CLOSE[], double hv[], const int START, const int END,
+		const int PERIOD)
 {
-	static int last_timeframe  = 0;
-	static int last_calculated = 0;
-	       int i;
-
-	if (last_timeframe != TIMEFRAME) {
-		last_calculated = 0;
-
-		last_timeframe = TIMEFRAME;
-	}
-
-	if (last_calculated > PERIOD - 1) {
-		i = last_calculated;
-	} else {
-		i = PERIOD - 1;
-	}
-
-	for (; i < N; i++) {
+	for (int i = START; i <= END; i++) {
 		hv[i] = sd(CLOSE, PERIOD, i);
-
-		last_calculated = i;
 	}
 }
 
